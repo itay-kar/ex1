@@ -5,6 +5,9 @@ import java.util.*;
 
 public class WGraph_Algo implements weighted_graph_algorithms, Serializable {
     private weighted_graph graph = new WGraph_DS();
+    private Iterator<node_info> nodeSearch;
+    PriorityQueue<node_info> Queue;
+
 
     /**
      * Init the graph on which this set of algorithms operates on.
@@ -37,7 +40,6 @@ public class WGraph_Algo implements weighted_graph_algorithms, Serializable {
 
     @Override
     public weighted_graph copy() {
-        Iterator<node_info> nodeSearch;
         WGraph_DS temp = new WGraph_DS();
 
         //adds all nodes to the new graph//
@@ -75,7 +77,6 @@ public class WGraph_Algo implements weighted_graph_algorithms, Serializable {
      */
     @Override
     public boolean isConnected() {
-        Iterator<node_info> nodeSearch;
         node_info current;
         node_info current2;
 
@@ -133,7 +134,7 @@ public class WGraph_Algo implements weighted_graph_algorithms, Serializable {
     /**
      * returns the length of the shortest path between src to dest
      * Note: if no such path --> returns -1
-     *
+     * <p>
      * Vcurrent , Vnext - representations of nodes in graph as a value keeper
      * current , next - current is the node that goes out of queue , next is his next neighbor.
      * This Method creates a priority queue which adds neighbors from src by their tag value (distance).
@@ -147,9 +148,7 @@ public class WGraph_Algo implements weighted_graph_algorithms, Serializable {
 
     @Override
     public double shortestPathDist(int src, int dest) {
-        PriorityQueue<node_info> Queue =
-                new PriorityQueue<node_info>(Comparator.comparingDouble(node_info::getTag));
-        Iterator<node_info> nodeSearch;
+        Queue = new PriorityQueue<node_info>(Comparator.comparingDouble(node_info::getTag));
         resetInfo();
         weighted_graph graph1 = this.copy();
         graph1.getNode(src).setTag(0);
@@ -208,25 +207,23 @@ public class WGraph_Algo implements weighted_graph_algorithms, Serializable {
      * src--> n1-->n2-->...dest
      * see: https://en.wikipedia.org/wiki/Shortest_path_problem
      * Note if no such path --> returns null;
-     *
+     * <p>
      * this method uses a priority queue to determine what is the shortest path from node to node and
      * return a list of path order nodes , its using the same method of shortestpathdist ,
      * only this time _info is set to be the key of the parent node of this node.
      * Parent node is set by the shortest distance each time the iterator runs into this node.
-     *
+     * <p>
      * while its found the fastest root a second iterator runs from dest node as source.
      * it checks the info of the node and translate it into a int number than adds it to the list
      * this way every node in the path is added to the list
+     *
      * @param src  - start node
      * @param dest - end (target) node
      * @return
      */
     @Override
     public List<node_info> shortestPath(int src, int dest) {
-        PriorityQueue<node_info> Queue =
-                new PriorityQueue<node_info>(Comparator.comparingDouble(node_info::getTag));
-
-        Iterator<node_info> nodeSearch;
+        Queue = new PriorityQueue<node_info>(Comparator.comparingDouble(node_info::getTag));
         LinkedList<node_info> path = new LinkedList<>();
         resetInfo();
         weighted_graph graph1 = this.copy();
