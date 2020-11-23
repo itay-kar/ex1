@@ -28,22 +28,29 @@ public class WGraph_Algo implements weighted_graph_algorithms, Serializable {
 
     /**
      * Compute a deep copy of this weighted graph.
+     * This method runs through each of this graph nodes with an iterator _nodeSearch
+     * First it adds all the nodes than its iterates through each node neighbors and adds
+     * them to this graph.
      *
      * @return
      */
+
     @Override
     public weighted_graph copy() {
         Iterator<node_info> nodeSearch;
         WGraph_DS temp = new WGraph_DS();
 
+        //adds all nodes to the new graph//
         for (node_info z : this.graph.getV()
         ) {
             temp.addNode(z.getKey());
         }
 
+        //adds all neighbors of each node z//
         for (node_info z : this.graph.getV()) {
             nodeSearch = this.graph.getV(z.getKey()).iterator();
 
+            //connects each node and his neighbors with their tag in the new graph//
             while (nodeSearch.hasNext()) {
                 node_info x = nodeSearch.next();
                 temp.connect(z.getKey(), x.getKey(), x.getTag());
@@ -57,6 +64,12 @@ public class WGraph_Algo implements weighted_graph_algorithms, Serializable {
     /**
      * Returns true if and only if (iff) there is a valid path from EVREY node to each
      * other node. NOTE: assume ubdirectional graph.
+     * <p>
+     * This Method tests if a weighted graph is connected by going through each node neighbors
+     * and adding them into a queue,each node has info "White" as defualt if node is visited his
+     * info turns "Black",and wont be visited again, if a node is added to queue his color turn grey
+     * so he wont be added again, there is a count (node_size) that goes down every time node is added
+     * into the queue ,once Queue is empty or count (node_size) is 0 , its returns the boolean.
      *
      * @return
      */
@@ -66,29 +79,36 @@ public class WGraph_Algo implements weighted_graph_algorithms, Serializable {
         node_info current;
         node_info current2;
 
+        //if this graph had one node or is empty returns true//
         if (graph.nodeSize() <= 1) {
             return true;
         }
+        //count = nodeSize-1 , start node doesn't count//
         int count = graph.nodeSize() - 1;
 
         nodeSearch = graph.getV().iterator();
         Stack<node_info> queue = new Stack<>();
 
+        //adds start node into queue , this is a random node//
         queue.push(nodeSearch.next());
 
         while (!queue.empty()) {
+            //condition 1//
             if (count == 0) {
                 return true;
             }
+
             current = queue.pop();
             node_info currentV = graph.getNode(current.getKey());
 
+            //check if node isn't black and runs through hid neighbors with iterator //
             if (!currentV.getInfo().equals("Black")) {
                 nodeSearch = this.graph.getV(current.getKey()).iterator();
 
                 while (nodeSearch.hasNext()) {
                     current2 = nodeSearch.next();
                     node_info currentV2 = graph.getNode(current2.getKey());
+
                     if (currentV2.getInfo().equals("White")) {
                         queue.push(current2);
                         currentV2.setInfo("Grey");
@@ -114,6 +134,7 @@ public class WGraph_Algo implements weighted_graph_algorithms, Serializable {
      * returns the length of the shortest path between src to dest
      * Note: if no such path --> returns -1
      *
+     * 
      * @param src  - start node
      * @param dest - end (target) node
      * @return
