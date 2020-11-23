@@ -61,34 +61,36 @@ class WGraph_AlgoTest_My {
     void shortestPathDist() {
         weighted_graph g = WGraph_DSTest_My.graphCreator(10, 0, 1);
         g.connect(1, 3, 1.52);
-        g.connect(3, 6, 1.52);
-        g.connect(8, 7, 1.52);
+        g.connect(3, 6, 2.50);
         g.connect(1, 8, 4.21);
+        g.connect(8, 7, 1.52);
         g.connect(7, 9, 1.24);
-        g.connect(6, 9, 7.21);
+        g.connect(1, 6, 2.50);
+        g.connect(6,9,2.50);
 
 
         weighted_graph_algorithms ga_0 = new WGraph_Algo();
         ga_0.init(g);
         double x = ga_0.shortestPathDist(1, 9);
         System.out.print(x);
-        assertEquals(ga_0.shortestPathDist(1, 9), 6.97, 0.01);
+        assertEquals(ga_0.shortestPathDist(1, 9), 5, 0.01);
     }
 
     @Test
     void shortestPath() {
         weighted_graph g = WGraph_DSTest_My.graphCreator(10, 0, 1);
         g.connect(1, 3, 1.52);
-        g.connect(3, 6, 1.52);
-        g.connect(8, 7, 1.52);
+        g.connect(3, 6, 2.50);
         g.connect(1, 8, 4.21);
+        g.connect(8, 7, 1.52);
         g.connect(7, 9, 1.24);
-        g.connect(6, 9, 7.21);
+        g.connect(1, 6, 2.50);
+        g.connect(6,9,2.50);
 
 
         weighted_graph_algorithms ga_0 = new WGraph_Algo();
         ga_0.init(g);
-        double[] d = {0, 4.21, 5.73, 6.97};
+        double[] d = {0, 2.50, 5};
         List<node_info> x = ga_0.shortestPath(1, 9);
         Iterator<node_info> n = x.listIterator();
         int i = 0;
@@ -98,7 +100,7 @@ class WGraph_AlgoTest_My {
             assertEquals(temp.getTag(), d[i], 0.01);
             i++;
         }
-        assertEquals(ga_0.shortestPathDist(1, 9), 6.97, 0.0001);
+        assertEquals(ga_0.shortestPathDist(1, 9), 5, 0.0001);
 
 
     }

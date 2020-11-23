@@ -134,11 +134,17 @@ public class WGraph_Algo implements weighted_graph_algorithms, Serializable {
      * returns the length of the shortest path between src to dest
      * Note: if no such path --> returns -1
      *
-     * 
+     * Vcurrent , Vnext - representations of nodes in graph as a value keeper
+     * current , next - current is the node that goes out of queue , next is his next neighbor.
+     * This Method creates a priority queue which adds neighbors from src by their tag value (distance).
+     * each time a neighbor is added into the queue if current+next tag < Vnext tag , the neighbor
+     * is send back to queue with his new tag and VNext tag is updated.
+     *
      * @param src  - start node
      * @param dest - end (target) node
      * @return
      */
+
     @Override
     public double shortestPathDist(int src, int dest) {
         PriorityQueue<node_info> Queue =
@@ -186,6 +192,9 @@ public class WGraph_Algo implements weighted_graph_algorithms, Serializable {
 
     }
 
+    /**
+     * this method set all graph nodes info to white, helps to reset graph value through algorithms.
+     */
     private void resetInfo() {
         for (node_info z : graph.getV()
         ) {
@@ -200,6 +209,14 @@ public class WGraph_Algo implements weighted_graph_algorithms, Serializable {
      * see: https://en.wikipedia.org/wiki/Shortest_path_problem
      * Note if no such path --> returns null;
      *
+     * this method uses a priority queue to determine what is the shortest path from node to node and
+     * return a list of path order nodes , its using the same method of shortestpathdist ,
+     * only this time _info is set to be the key of the parent node of this node.
+     * Parent node is set by the shortest distance each time the iterator runs into this node.
+     *
+     * while its found the fastest root a second iterator runs from dest node as source.
+     * it checks the info of the node and translate it into a int number than adds it to the list
+     * this way every node in the path is added to the list
      * @param src  - start node
      * @param dest - end (target) node
      * @return

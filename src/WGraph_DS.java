@@ -6,6 +6,15 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Objects;
 
+/**
+ * /////////this Class represent a weighted graph.////
+ * its build from a hashmap V(Verticals) of node_info with their key as key to the hashmap.
+ * also it contains another hashmap E (Edges) for each node,
+ * which contains another hashmap of his neighbors.
+ * each of the hashmaps is operable through nodes key.
+ *
+ *  each Edge is a clone of nodes from V while nodes tag functions as weight value keeper.
+ */
 
 public class WGraph_DS implements weighted_graph, Serializable {
     private HashMap<Integer, node_info> V = new HashMap<>();
@@ -43,7 +52,6 @@ public class WGraph_DS implements weighted_graph, Serializable {
     /**
      * return the weight if the edge (node1, node1). In case
      * there is no such edge - should return -1
-     * Note: this method should run in O(1) time.
      *
      * @param node1
      * @param node2
@@ -58,9 +66,7 @@ public class WGraph_DS implements weighted_graph, Serializable {
 
     /**
      * add a new node to the graph with the given key.
-     * Note: this method should run in O(1) time.
-     * Note2: if there is already a node with such a key -> no action should be performed.
-     *
+     * and build a new hashmap of edges for this node.
      * @param key
      */
     @Override
@@ -74,8 +80,6 @@ public class WGraph_DS implements weighted_graph, Serializable {
 
     /**
      * Connect an edge between node1 and node2, with an edge with weight >=0.
-     * Note: this method should run in O(1) time.
-     * Note2: if the edge node1-node2 already exists - the method simply updates the weight of the edge.
      *
      * @param node1
      * @param node2
